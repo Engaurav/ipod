@@ -21,8 +21,8 @@
   /* Css for Display Part */
   .ipod-display{
     background-image: url('https://cdn.create.vista.com/api/media/small/347767571/stock-photo-top-view-paper-cut-notes');
-    height: 18rem;
-    width: 18rem;
+    height: 20rem;
+    width: 20rem;
     border: solid 2px;
     border-radius: 8px;
   }

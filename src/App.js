@@ -4,6 +4,8 @@ import Srivalli from './music/Srivalli.mp3';
 import MaanLe from './music/Maan Le.mp3';
 import Voodoo from './music/Voodoo.mp3';
 import Music from './components/Music';
+import Menu from './components/Menu'
+import ZingTouch from "zingtouch";
 
 
 
@@ -36,6 +38,10 @@ class App extends React.Component {
     isPlaying : true,   //bollean value to control play pause
     songIndex : 0,      // index value to control song list
     audio : new Audio(),  //initialising song
+    menu:false,       //to handle Menu
+    music: true,     //to handle Music Display
+    deg:0,            //to handle rotatble div
+    pdeg:0,           //to handle rotatble div
     }
   }
   componentDidMount() {
@@ -103,31 +109,107 @@ previousSong = () => {
   }
 }
 
+
+ //menu button display handler
+ menuButtonHandle = () => {
+  if(this.state.menu){
+    this.setState({
+      menu:false,
+      games:false,
+      setting: false,
+      music: true
+    })
+    
+  }else{
+    this.setState({
+      menu:true,
+      games:false,
+      setting: false,
+      music: false
+    })
+  }
+}
+
+
+//Using Zingtouch Rotate function to select menu list item using menu touch
+deggree = () => {
+  var deggree =0;
+  var myElement = document.getElementById('rotatable');
+  var myTapGesture = new ZingTouch.Rotate();
+  var myRegion = new ZingTouch.Region(document.body);
+
+  myRegion.bind(myElement, myTapGesture, (e) => {
+      deggree = Math.floor(e.detail.distanceFromOrigin);
+      if(this.state.deg + 20 < deggree || deggree < this.state.deg -20 ){
+      this.setState({
+        pdeg:this.state.deg,
+        deg:deggree
+      })}
+  }, false);
+}
+
+// To Handle Menu Item
+menuItemHandle = () => {
+  var active = document.getElementById('active');
+  // console.log(active)
+  if(active != null && active.innerText === "All Music"){
+    // console.log("aLL mUSIC CLICKED");
+    this.setState({
+      menu:false,
+      games:false,
+      setting: false,
+      music: true
+
+    })
+  }
+  if(active != null && active.innerText === "Games"){
+    // console.log("gAMES CLICKED");
+    this.setState({
+      menu:false,
+      games:true,
+      setting: false,
+      music: false
+
+    })
+  }
+  if(active != null && active.innerText === "Setting"){
+    // console.log("sETTING CLICKED");
+    this.setState({
+      menu:false,
+      games:false,
+      setting: true,
+      music: false
+    })
+  }
+}
+
+
+
   render(){
     return (
       <div className="App">
           <div className='ipod-container'>                  {/* Setting Up Ipod Container */} 
               <div className='ipod-display'>                {/* Setting Up Display Container */}
                
-              <Music song={this.state.songlist[this.state.songIndex] }/>     {/* To Handle Music Display for Every Song  */}
+                  {this.state.menu && <Menu degree = { this.state} />}
+                  { this.state.music && <Music song={this.state.songlist[this.state.songIndex] }/>  }   {/* To Handle Music Display for Every Song  */}
               </div>
               
               <div className='wheel-container'>             {/* Container of Rotating Wheel and Buttons */}
-                  
+                <div id="wrapper">  
                   <div id="rotate-container">
-
-                      <div  id="rotatable">               {/* Rotable container for rotating using mouse */}
-                        <div className='wheel-button'>    {/* Container for making Wheel Structure */}
+                      <div onMouseDown ={ this.deggree }  id="rotatable">               {/* Rotable container for rotating using mouse */}
+                        <div onClick={ this.menuItemHandle } className='wheel-button'>    {/* Container for making Wheel Structure */}
                         </div>
                       </div>
 
-                      <button id='menu'>MENU</button>     {/* Menu Button in Wheel */}
+                      <button id='menu' onClick={this.menuButtonHandle}>MENU</button>     {/* Menu Button in Wheel */}
                       <img onClick={ this.previousSong } id='previous' src='https://cdn-icons-png.flaticon.com/512/254/254437.png' alt='previous'></img>   {/* Previous Button   */}
                       <img onClick={this.nextSong} id='next' src='https://cdn-icons-png.flaticon.com/512/254/254428.png' alt='next'></img>            {/*  Next Button */}
                       <img onClick={ this.playPause} id='play-pause' src='https://cdn-icons.flaticon.com/png/512/5725/premium/5725942.png?token=exp=1650793068~hmac=0c5ef93238b3d06f6d9dc1254952f220' alt='play-pause'></img>    {/* Play Pause Button */}
                   </div>
                 </div>
-              
+              </div>
           </div>
       </div>
     );
