@@ -6,7 +6,8 @@ import Voodoo from './music/Voodoo.mp3';
 import Music from './components/Music';
 import Menu from './components/Menu'
 import ZingTouch from "zingtouch";
-
+import Games from "./components/Games"
+import Setting from "./components/Setting"
 
 
 class App extends React.Component {
@@ -192,6 +193,8 @@ menuItemHandle = () => {
               <div className='ipod-display'>                {/* Setting Up Display Container */}
                
                   {this.state.menu && <Menu degree = { this.state} />}
+                  {this.state.games && <Games />}
+                  {this.state.setting && <Setting />}
                   { this.state.music && <Music song={this.state.songlist[this.state.songIndex] }/>  }   {/* To Handle Music Display for Every Song  */}
               </div>
               
