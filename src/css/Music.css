@@ -1,0 +1,32 @@
+.music-display{
+    height: 18rem;
+    width: 18rem;
+    border: solid 2px;
+    background: white;
+    margin-top: -2px;
+    border-radius: 8px;
+    margin-left: -2px;
+    display: flex;
+    flex-direction: column;
+}
+#music-display-detail{    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 15rem;
+    margin-left: 1rem;
+}
+#song-img{
+    width: 9rem;
+}
+#song-detail{
+    margin-left: 1rem;
+}
+#song-play{
+    display: flex;
+    align-self: center;
+    margin-top: 1.5rem;
+}
+#song-range{
+    width: 13rem;
+}
